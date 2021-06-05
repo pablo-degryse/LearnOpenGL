@@ -5447,7 +5447,8 @@ static int glad_gl_find_extensions_gl( int version) {
     char **exts_i = NULL;
     if (!glad_gl_get_extensions(version, &exts, &num_exts_i, &exts_i)) return 0;
 
-    (void) glad_gl_has_extension;
+    // NOTE: commented this out.. bug in Glad2 code gen? Doesn't seem to do anything
+    //(void) glad_gl_has_extension;
 
     glad_gl_free_extensions(exts_i, num_exts_i);
 
