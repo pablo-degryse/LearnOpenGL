@@ -4,10 +4,12 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <assert.h>
 
 std::string ShaderProgram::loadShaderCode(const char* filename)
 {
 	auto file = std::ifstream(filename);
+	assert(!file.fail());
 	std::stringstream stringStream;
 	stringStream << file.rdbuf();
 	file.close();
@@ -27,7 +29,7 @@ unsigned int ShaderProgram::createShader(const char* filename, ShaderType type)
 		shader = glCreateShader(GL_FRAGMENT_SHADER);
 		break;
 	default:
-		shader = 0;
+		assert(false);
 		break;
 	}
 	const char* codePtr = code.c_str();
