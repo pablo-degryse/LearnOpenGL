@@ -13,5 +13,6 @@ public:
 	ShaderProgram(const char* vertexFile, const char* fragmentFile);
 	void use();
 	void setFloat(const std::string& name, float value);
+	void setInt(const std::string& name, int value);
 };
 
