@@ -168,9 +168,14 @@ int main()
 	shaderProgram.setInt("texture1", 0);
 	shaderProgram.setInt("texture2", 1);
 
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+	glm::vec3 cameraPos(0.0f, 0.0f, 3.0f);
+	// this vector is actually pointing away from what camera is looking at
+	glm::vec3 cameraDir = glm::normalize(cameraPos - cameraDir);
+	glm::vec3 up(0.0f, 1.0f, 0.0f);
+	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDir));
+	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraDir, cameraRight));
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -188,14 +193,25 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
-		shaderProgram.setMat4("view", view);
 		shaderProgram.setMat4("projection", projection);
 		
 		for (int i = 0; i < 10; ++i) {
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePositions[i]);
 			model = glm::rotate(model, glm::radians(20.0f * i), glm::vec3(1.0f, 0.3f, 0.5f));
+
+			float cameraRadius = 10.0f;
+			float cameraX = sin((float)glfwGetTime()) * cameraRadius;
+			float cameraZ = cos((float)glfwGetTime()) * cameraRadius;
+
+			glm::mat4 view = glm::lookAt(
+				glm::vec3(cameraX, 0.0, cameraZ),
+				glm::vec3(0.0f, 0.0f, 0.0f), 		// target
+				up
+			);
+
 			shaderProgram.setMat4("model", model);
+			shaderProgram.setMat4("view", view);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
