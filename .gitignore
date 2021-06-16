@@ -1,5 +1,2 @@
-Bin/
-Obj/
-.vs/
-*.filters
-*.user
+Build/
+*.rdbg
