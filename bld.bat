@@ -1,11 +1,23 @@
 @echo off
 cls
-if not exist %blddir% (mkdir %blddir%)
 
 set config=Debug
-set sourcefiles=%srcdir%\Main.cpp %srcdir%\ShaderProgram.cpp
-set libfiles=%libbindir%\%config%\glfw3.lib opengl32.lib user32.lib gdi32.lib shell32.lib
+rem set config=Release
 
-pushd %blddir%
-cl %sourcefiles% /Fe:%proj%.exe /I%libincdir% /Zi /DEBUG:FULL /MDd /EHsc /W3 /nologo /link /INCREMENTAL:NO %libfiles%
+set fullBldDir=%bldDir%\%config%
+if not exist %fullBldDir% (mkdir %fullBldDir%)
+
+set sourceFiles=%srcDir%\Main.cpp %srcDir%\ShaderProgram.cpp
+set libFiles=%libBinDir%\%config%\glfw3.lib opengl32.lib user32.lib gdi32.lib shell32.lib
+
+if %config% EQU Debug (
+set configClArgs=/D DEBUG /Zi /DEBUG:FULL /MDd
+set configLinkArgs=/DEBUG:FULL
+) else (
+set configClArgs=/O2 /MD
+set configLinkArgs=/DEBUG:NONE
+)
+
+pushd %fullBldDir%
+cl %sourceFiles% /Fe:%proj%.exe /I%libIncDir% %configClArgs% /EHsc /W3 /nologo /link %configLinkArgs% /INCREMENTAL:NO %libFiles%
 popd
