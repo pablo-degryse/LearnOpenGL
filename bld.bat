@@ -7,7 +7,7 @@ rem set config=Release
 set fullBldDir=%bldDir%\%config%
 if not exist %fullBldDir% (mkdir %fullBldDir%)
 
-set sourceFiles=%srcDir%\Main.cpp %srcDir%\ShaderProgram.cpp
+set sourceFiles=%srcDir%\Main.cpp %srcDir%\ShaderProgram.cpp %srcDir%\FpsCamera.cpp
 set libFiles=%libBinDir%\%config%\glfw3.lib opengl32.lib user32.lib gdi32.lib shell32.lib
 
 if %config% EQU Debug (
