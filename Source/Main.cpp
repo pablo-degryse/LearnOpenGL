@@ -27,10 +27,75 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 }
 
+float deltaTime = 0.0f;
+float lastTime = 0.0f;
+glm::vec3 cameraPos(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+float yaw = -90.0f;
+float pitch = 0.0f;
+float lastX = 400.0f;
+float lastY = 300.0f;
+float sensitivity = 0.1f;
+float firstMouse = true;
+float fov = 45.0f;
+
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	
+	const float cameraSpeed = 2.5f * deltaTime;
+	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += (cameraFront * cameraSpeed);
+	if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cameraPos -= (cameraFront * cameraSpeed);
+	if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cameraPos -= (glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed);
+	if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cameraPos += (glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed);
+}
+
+
+void mouseCallback(GLFWwindow* window, double xPos, double yPos)
+{
+	if(firstMouse)
+	{
+		lastX = (float)xPos;
+		lastY = (float)yPos;
+		firstMouse = false;
+	}
+
+	float xDiff = (float)xPos - lastX;
+	float yDiff = lastY - (float)yPos; // inverse
+	lastX = (float)xPos;
+	lastY = (float)yPos;
+	
+	xDiff *= sensitivity;
+	yDiff *= sensitivity;
+	yaw += xDiff;
+	pitch += yDiff;
+
+	if(pitch > 89.0f)
+		pitch = 89.0f;
+	else if(pitch < -89.0f)
+		pitch = -89.0f;
+
+	glm::vec3 direction(
+		cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
+		sin(glm::radians(pitch)),
+		sin(glm::radians(yaw)) * cos(glm::radians(pitch))
+	);
+	cameraFront = glm::normalize(direction);
+}
+
+void scrollCallback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	fov -= (float)yOffset * 0.7f;
+	if(fov < 20.0f)
+		fov = 20.0f;
+	else if(fov > 45.0f)
+		fov = 45.0f;
 }
 
 int main()
@@ -58,6 +123,8 @@ int main()
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallback);
 	glfwSetKeyCallback(window, keyCallback);
+	glfwSetCursorPosCallback(window, mouseCallback);
+	glfwSetScrollCallback(window, scrollCallback);
 
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -168,18 +235,15 @@ int main()
 	shaderProgram.setInt("texture1", 0);
 	shaderProgram.setInt("texture2", 1);
 
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-
-	glm::vec3 cameraPos(0.0f, 0.0f, 3.0f);
-	// this vector is actually pointing away from what camera is looking at
-	glm::vec3 cameraDir = glm::normalize(cameraPos - cameraDir);
-	glm::vec3 up(0.0f, 1.0f, 0.0f);
-	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDir));
-	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraDir, cameraRight));
-
 	glEnable(GL_DEPTH_TEST);
 
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 	while (!glfwWindowShouldClose(window)) {
+		float currentTime = (float)glfwGetTime();
+		deltaTime = currentTime - lastTime;
+		lastTime = currentTime;
+
 		glfwPollEvents();
 		processInput(window);
 
@@ -192,26 +256,18 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
-
-		shaderProgram.setMat4("projection", projection);
 		
+		glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		shaderProgram.setMat4("view", view);
+		glm::mat4 projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
+		shaderProgram.setMat4("projection", projection);
+
 		for (int i = 0; i < 10; ++i) {
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePositions[i]);
 			model = glm::rotate(model, glm::radians(20.0f * i), glm::vec3(1.0f, 0.3f, 0.5f));
 
-			float cameraRadius = 10.0f;
-			float cameraX = sin((float)glfwGetTime()) * cameraRadius;
-			float cameraZ = cos((float)glfwGetTime()) * cameraRadius;
-
-			glm::mat4 view = glm::lookAt(
-				glm::vec3(cameraX, 0.0, cameraZ),
-				glm::vec3(0.0f, 0.0f, 0.0f), 		// target
-				up
-			);
-
 			shaderProgram.setMat4("model", model);
-			shaderProgram.setMat4("view", view);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
