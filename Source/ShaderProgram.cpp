@@ -52,16 +52,16 @@ ShaderProgram::ShaderProgram(const char* vertexFile, const char* fragmentFile)
 	unsigned int vertexShader = createShader(vertexFile, ShaderType::Vertex);
 	unsigned int fragmentShader = createShader(fragmentFile, ShaderType::Fragment);
 	
-	Id = glCreateProgram();
-	glAttachShader(Id, vertexShader);
-	glAttachShader(Id, fragmentShader);
-	glLinkProgram(Id);
+	id = glCreateProgram();
+	glAttachShader(id, vertexShader);
+	glAttachShader(id, fragmentShader);
+	glLinkProgram(id);
 
 	int programLinkSuccess = 0;
 	char programInfoLog[512];
-	glGetProgramiv(Id, GL_LINK_STATUS, &programLinkSuccess);
+	glGetProgramiv(id, GL_LINK_STATUS, &programLinkSuccess);
 	if (!programLinkSuccess) {
-		glGetProgramInfoLog(Id, 512, nullptr, programInfoLog);
+		glGetProgramInfoLog(id, 512, nullptr, programInfoLog);
 		std::cout << "Program link error:\n" << programInfoLog << std::endl;
 	}
 
@@ -71,23 +71,23 @@ ShaderProgram::ShaderProgram(const char* vertexFile, const char* fragmentFile)
 
 void ShaderProgram::use() const
 {
-	glUseProgram(Id);
+	glUseProgram(id);
 }
 
-void ShaderProgram::setFloat(const std::string& name, float value) const
+void ShaderProgram::setFloat(const char* name, float value) const
 {
-	int loc = glGetUniformLocation(Id, name.c_str());
+	int loc = glGetUniformLocation(id, name);
 	glUniform1f(loc, value);
 }
 
-void ShaderProgram::setInt(const std::string& name, int value) const
+void ShaderProgram::setInt(const char* name, int value) const
 { 
-	int loc = glGetUniformLocation(Id, name.c_str());
+	int loc = glGetUniformLocation(id, name);
 	glUniform1i(loc, value);
 }
 
-void ShaderProgram::setMat4(const std::string& name, const glm::mat4& value) const
+void ShaderProgram::setMat4(const char* name, const glm::mat4& value) const
 {
-	int loc = glGetUniformLocation(Id, name.c_str());
+	int loc = glGetUniformLocation(id, name);
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
 }

@@ -3,13 +3,13 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include "ShaderProgram.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Input.h"
 #include "FpsCamera.h"
+#include "Texture.h"
+#include "Buffer.h"
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -148,6 +148,53 @@ int main()
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	float vertexPositions[] = {
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+
+		-0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f, -0.5f,
+
+		-0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f
+	};
+	VertexAttribute vertexAttributes[] = {
+		VertexAttribute(3, 0)
+	};
+
 	unsigned int vao = 0;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -160,35 +207,14 @@ int main()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
+	Buffer<float> vertexBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertexPositions, 108, 3, 
+		vertexAttributes, 1);
+	// TODO: add vertex array stuff
+
 	ShaderProgram shaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Fragment.glsl");
 
-	stbi_set_flip_vertically_on_load(1);
-	int textureWidth = 0, textureHeight = 0, nrOfChannels = 0;
-	unsigned char* textureData = stbi_load("Res/Textures/container.jpg", &textureWidth, &textureHeight, &nrOfChannels, 0);
-	assert(textureData != nullptr);
-	unsigned int texture = 0;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, (void*)textureData);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free((void*)textureData);
-
-	unsigned char* texture2Data = stbi_load("Res/Textures/awesomeface.png", &textureWidth, &textureHeight, &nrOfChannels, 0);
-	assert(texture2Data != nullptr);
-	unsigned int texture2 = 0;
-	glGenTextures(1, &texture2);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)texture2Data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free((void*)texture2Data);
+	Texture containerTexture("Res/Textures/container.jpg", GL_TEXTURE_2D);
+	Texture faceTexture("Res/Textures/awesomeface.png", GL_TEXTURE_2D);
 
 	shaderProgram.use();
 	// make sure to use shaderprogram first, before setting any uniforms!
@@ -219,10 +245,9 @@ int main()
 
 		glBindVertexArray(vao);
 		shaderProgram.use();
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture2);
+
+		containerTexture.bind(GL_TEXTURE0);
+		faceTexture.bind(GL_TEXTURE1);
 		
 		camera.updateViewMat();
 		shaderProgram.setMat4("view", camera.viewMat);
