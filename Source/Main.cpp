@@ -2,14 +2,15 @@
 #define GLAD_GL_IMPLEMENTATION
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include "ShaderProgram.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Input.h"
 #include "FpsCamera.h"
 #include "Texture.h"
-#include "Buffer.h"
+#include "ShaderProgram.h"
+#include "Buffers.h"
+#include "VertexArray.h"
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -91,7 +92,7 @@ int main()
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetScrollCallback(window, scrollCallback);
 
-	float vertices[] = {
+	float vertexData[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
 		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -134,6 +135,10 @@ int main()
 		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
+	VertexAttribute vertexAttributes[] = {
+		VertexAttribute(3, 0),
+		VertexAttribute(2, 3)
+	};
 
 	glm::vec3 cubePositions[] = {
 		glm::vec3(0.0f,  0.0f,  0.0f),
@@ -148,68 +153,12 @@ int main()
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
-	float vertexPositions[] = {
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f
-	};
-	VertexAttribute vertexAttributes[] = {
-		VertexAttribute(3, 0)
-	};
-
-	unsigned int vao = 0;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	unsigned int vbo = 0;
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	Buffer<float> vertexBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertexPositions, 108, 3, 
-		vertexAttributes, 1);
-	// TODO: add vertex array stuff
+	VertexBuffer vertexBuffer(vertexData, 180, GL_STATIC_DRAW, 5, vertexAttributes, 2);
+	VertexArray vertexArray(GL_TRIANGLES, 36, false);
+	vertexArray.bind();
+	vertexBuffer.bind();
+	vertexArray.RegisterVertexAttributes(vertexBuffer.attributes, vertexBuffer.nrOfAttributes, 
+		vertexBuffer.attributeStride);
 
 	ShaderProgram shaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Fragment.glsl");
 
@@ -243,7 +192,7 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glBindVertexArray(vao);
+		vertexArray.bind();
 		shaderProgram.use();
 
 		containerTexture.bind(GL_TEXTURE0);
@@ -260,7 +209,7 @@ int main()
 			model = glm::rotate(model, glm::radians(20.0f * i), glm::vec3(1.0f, 0.3f, 0.5f));
 
 			shaderProgram.setMat4("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			glDrawArrays(vertexArray.primitiveType, 0, vertexArray.nrOfElements);
 		}
 
 		glfwSwapBuffers(window);
