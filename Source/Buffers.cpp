@@ -1,17 +1,17 @@
 #include "Buffers.h"
 #include <glad/gl.h>
 
-VertexBuffer::VertexBuffer(float* data, int dataLength, unsigned int usage,
-    int attributeStride, VertexAttribute* attributes, int nrOfAttributes)
+VertexBuffer::VertexBuffer(float* data, int dataCount, unsigned int usage,
+    int attributeStride, VertexAttribute* attributes, int attributeCount)
     : data(data),
-      dataLength(dataLength),
+      dataCount(dataCount),
       attributeStride(attributeStride),
       attributes(attributes),
-      nrOfAttributes(nrOfAttributes)
+      attributeCount(attributeCount)
 {
 	glGenBuffers(1, &id);
 	glBindBuffer(GL_ARRAY_BUFFER, id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataLength, data, usage);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataCount, data, usage);
 }
 
 void VertexBuffer::bind() const 

@@ -10,12 +10,13 @@ VertexArray::VertexArray(unsigned int primitiveType, int nrOfElements, bool isIn
     glGenVertexArrays(1, &id);
 }
 
-void VertexArray::RegisterVertexAttributes(VertexAttribute* attributes, int nrOfAttributes, int stride)
+void VertexArray::RegisterVertexBufferAttributes(const VertexBuffer& vertexBuffer)
 {
-    for(int i = 0; i < nrOfAttributes; ++i) {
-        VertexAttribute attrib = attributes[i];
+    vertexBuffer.bind();
+    for(int i = 0; i < vertexBuffer.attributeCount; ++i) {
+        VertexAttribute attrib = vertexBuffer.attributes[i];
         glVertexAttribPointer(vertexAttributeIndex, attrib.size, GL_FLOAT, GL_FALSE, 
-            stride * sizeof(float), (void*)(attrib.offset * sizeof(float)));
+            vertexBuffer.attributeStride * sizeof(float), (void*)(attrib.offset * sizeof(float)));
 	    glEnableVertexAttribArray(vertexAttributeIndex);
         ++vertexAttributeIndex;
     }

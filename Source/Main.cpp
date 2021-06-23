@@ -156,9 +156,7 @@ int main()
 	VertexBuffer vertexBuffer(vertexData, 180, GL_STATIC_DRAW, 5, vertexAttributes, 2);
 	VertexArray vertexArray(GL_TRIANGLES, 36, false);
 	vertexArray.bind();
-	vertexBuffer.bind();
-	vertexArray.RegisterVertexAttributes(vertexBuffer.attributes, vertexBuffer.nrOfAttributes, 
-		vertexBuffer.attributeStride);
+	vertexArray.RegisterVertexBufferAttributes(vertexBuffer);
 
 	ShaderProgram shaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Fragment.glsl");
 

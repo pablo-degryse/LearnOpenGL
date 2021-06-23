@@ -12,13 +12,13 @@ struct VertexBuffer
 {
     unsigned int id;
     float* data;
-    int dataLength;
+    int dataCount;
     int attributeStride;
     VertexAttribute* attributes;
-    int nrOfAttributes;
+    int attributeCount;
 
-    VertexBuffer(float* data, int dataLength, unsigned int usage, int attributeStride, 
-        VertexAttribute* attributes, int nrOfAttributes);
+    VertexBuffer(float* data, int dataCount, unsigned int usage, int attributeStride, 
+        VertexAttribute* attributes, int attributeCount);
     void bind() const;
 };
 
