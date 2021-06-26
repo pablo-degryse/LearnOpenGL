@@ -93,62 +93,63 @@ int main()
 	glfwSetScrollCallback(window, scrollCallback);
 
 	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
 
-		-0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-		-0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
 	VertexAttribute cubeVertexAttribs[] = {
-		VertexAttribute(3, 0)
+		VertexAttribute(3, 0),
+		VertexAttribute(3, 3)
 	};
 	VertexAttribute lightVertexAttribs[] = {
 		VertexAttribute(3, 0)
 	};
 	
-	VertexBuffer vbo(vertices, 108, GL_STATIC_DRAW);
-	VertexAttributeDescriptor cubeAttribsDesc(cubeVertexAttribs, 1, 3);
+	VertexBuffer vbo(vertices, 216, GL_STATIC_DRAW);
+	VertexAttributeDescriptor cubeAttribsDesc(cubeVertexAttribs, 2, 6);
 	VertexArray cubeVao(GL_TRIANGLES, 36, false);
 	cubeVao.bind();
 	cubeVao.RegisterVertexBufferAttributes(vbo, cubeAttribsDesc);
 
-	VertexAttributeDescriptor lightAttribsDesc(lightVertexAttribs, 1, 3);
+	VertexAttributeDescriptor lightAttribsDesc(lightVertexAttribs, 1, 6);
 	VertexArray lightVao(GL_TRIANGLES, 36, false);
 	lightVao.bind();
 	lightVao.RegisterVertexBufferAttributes(vbo, lightAttribsDesc);
@@ -193,6 +194,8 @@ int main()
 		cubeShaderProgram.setMat4("projection", camera.projMat);
 		glm::mat4 model = glm::mat4(1.0f);
 		cubeShaderProgram.setMat4("model", model);
+		cubeShaderProgram.setVec3("lightPos", lightPos);
+		cubeShaderProgram.setVec3("viewPos", camera.position);
 		glDrawArrays(cubeVao.primitiveType, 0, cubeVao.nrOfElements);
 
 		lightVao.bind();
