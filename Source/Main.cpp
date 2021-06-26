@@ -92,81 +92,71 @@ int main()
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetScrollCallback(window, scrollCallback);
 
-	float vertexData[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	float vertices[] = {
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
 
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f, -0.5f,
+		0.5f, -0.5f,  0.5f,
+		0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f, -0.5f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		-0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f, -0.5f,
+		0.5f,  0.5f,  0.5f,
+		0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f
 	};
-	VertexAttribute vertexAttributes[] = {
-		VertexAttribute(3, 0),
-		VertexAttribute(2, 3)
+	VertexAttribute cubeVertexAttribs[] = {
+		VertexAttribute(3, 0)
 	};
-
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
+	VertexAttribute lightVertexAttribs[] = {
+		VertexAttribute(3, 0)
 	};
+	
+	VertexBuffer vbo(vertices, 108, GL_STATIC_DRAW);
+	VertexAttributeDescriptor cubeAttribsDesc(cubeVertexAttribs, 1, 3);
+	VertexArray cubeVao(GL_TRIANGLES, 36, false);
+	cubeVao.bind();
+	cubeVao.RegisterVertexBufferAttributes(vbo, cubeAttribsDesc);
 
-	VertexBuffer vertexBuffer(vertexData, 180, GL_STATIC_DRAW, 5, vertexAttributes, 2);
-	VertexArray vertexArray(GL_TRIANGLES, 36, false);
-	vertexArray.bind();
-	vertexArray.RegisterVertexBufferAttributes(vertexBuffer);
+	VertexAttributeDescriptor lightAttribsDesc(lightVertexAttribs, 1, 3);
+	VertexArray lightVao(GL_TRIANGLES, 36, false);
+	lightVao.bind();
+	lightVao.RegisterVertexBufferAttributes(vbo, lightAttribsDesc);
 
-	ShaderProgram shaderProgram("Res/Shaders/Vertex.glsl", "Res/Shaders/Fragment.glsl");
-
-	Texture containerTexture("Res/Textures/container.jpg", GL_TEXTURE_2D);
-	Texture faceTexture("Res/Textures/awesomeface.png", GL_TEXTURE_2D);
-
-	shaderProgram.use();
-	// make sure to use shaderprogram first, before setting any uniforms!
-	shaderProgram.setInt("texture1", 0);
-	shaderProgram.setInt("texture2", 1);
+	ShaderProgram lightShaderProgram("Res/Shaders/LightVertex.glsl", 
+		"Res/Shaders/LightFragment.glsl");
+	ShaderProgram cubeShaderProgram("Res/Shaders/cubeVertex.glsl", 
+		"Res/Shaders/cubeFragment.glsl");
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -177,6 +167,8 @@ int main()
 	FpsCamera camera(glm::vec3(0.0f, 0.0f, 3.0f), 45.0f);
 	float lastTime = (float)glfwGetTime();
 	float deltaTime = 0.0f;
+
+	glm::vec3 lightPos(1.2f, 2.0f, 1.0f);
 
 	while (!glfwWindowShouldClose(window)) {
 		float currentTime = (float)glfwGetTime();
@@ -190,25 +182,28 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		vertexArray.bind();
-		shaderProgram.use();
-
-		containerTexture.bind(GL_TEXTURE0);
-		faceTexture.bind(GL_TEXTURE1);
-		
 		camera.updateViewMat();
-		shaderProgram.setMat4("view", camera.viewMat);
 		camera.updateProjMat();
-		shaderProgram.setMat4("projection", camera.projMat);
+		
+		cubeVao.bind();
+		cubeShaderProgram.use();
+		cubeShaderProgram.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+		cubeShaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShaderProgram.setMat4("view", camera.viewMat);
+		cubeShaderProgram.setMat4("projection", camera.projMat);
+		glm::mat4 model = glm::mat4(1.0f);
+		cubeShaderProgram.setMat4("model", model);
+		glDrawArrays(cubeVao.primitiveType, 0, cubeVao.nrOfElements);
 
-		for (int i = 0; i < 10; ++i) {
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			model = glm::rotate(model, glm::radians(20.0f * i), glm::vec3(1.0f, 0.3f, 0.5f));
-
-			shaderProgram.setMat4("model", model);
-			glDrawArrays(vertexArray.primitiveType, 0, vertexArray.nrOfElements);
-		}
+		lightVao.bind();
+		lightShaderProgram.use();
+		lightShaderProgram.setMat4("view", camera.viewMat);
+		lightShaderProgram.setMat4("projection", camera.projMat);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightShaderProgram.setMat4("model", model);
+		glDrawArrays(lightVao.primitiveType, 0, lightVao.nrOfElements);
 
 		glfwSwapBuffers(window);
 	}

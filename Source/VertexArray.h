@@ -10,6 +10,7 @@ struct VertexArray
     int vertexAttributeIndex;
 
     VertexArray(unsigned int primitiveType, int nrOfElements, bool isIndexed);
-    void RegisterVertexBufferAttributes(const VertexBuffer& vertexBuffer);
+    void RegisterVertexBufferAttributes(const VertexBuffer& vertexBuffer, 
+        const VertexAttributeDescriptor& vertexAttribsDesc);
     void bind() const;
 };

@@ -91,3 +91,10 @@ void ShaderProgram::setMat4(const char* name, const glm::mat4& value) const
 	int loc = glGetUniformLocation(id, name);
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
 }
+
+
+void ShaderProgram::setVec3(const char* name, const glm::vec3& value) const
+{
+	int loc = glGetUniformLocation(id, name);
+	glUniform3fv(loc, 1, glm::value_ptr(value));
+}

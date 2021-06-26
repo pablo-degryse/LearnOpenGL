@@ -13,13 +13,17 @@ struct VertexBuffer
     unsigned int id;
     float* data;
     int dataCount;
-    int attributeStride;
-    VertexAttribute* attributes;
-    int attributeCount;
 
-    VertexBuffer(float* data, int dataCount, unsigned int usage, int attributeStride, 
-        VertexAttribute* attributes, int attributeCount);
+    VertexBuffer(float* data, int dataCount, unsigned int usage);
     void bind() const;
+};
+
+struct VertexAttributeDescriptor
+{
+    VertexAttribute* attributes;
+    int count;
+    int stride;
+    VertexAttributeDescriptor(VertexAttribute* attributes, int count, int stride);
 };
 
 struct IndexBuffer
