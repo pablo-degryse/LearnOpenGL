@@ -188,13 +188,23 @@ int main()
 		
 		cubeVao.bind();
 		cubeShaderProgram.use();
-		cubeShaderProgram.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-		cubeShaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 		cubeShaderProgram.setMat4("view", camera.viewMat);
 		cubeShaderProgram.setMat4("projection", camera.projMat);
 		glm::mat4 model = glm::mat4(1.0f);
 		cubeShaderProgram.setMat4("model", model);
-		cubeShaderProgram.setVec3("lightPos", lightPos);
+		cubeShaderProgram.setVec3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+		cubeShaderProgram.setVec3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+		cubeShaderProgram.setVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+		cubeShaderProgram.setFloat("material.shine", 32.0f);
+		glm::vec3 lightColor(
+			sin((float)glfwGetTime() * 2.0f),
+			sin((float)glfwGetTime() * 0.7f),
+			sin((float)glfwGetTime() * 1.3f)
+		);
+		cubeShaderProgram.setVec3("light.ambient", lightColor * 0.15f);
+		cubeShaderProgram.setVec3("light.diffuse", lightColor * 0.5f);
+		cubeShaderProgram.setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShaderProgram.setVec3("light.position", lightPos);
 		cubeShaderProgram.setVec3("viewPos", camera.position);
 		glDrawArrays(cubeVao.primitiveType, 0, cubeVao.nrOfElements);
 
