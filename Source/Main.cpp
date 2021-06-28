@@ -93,63 +93,65 @@ int main()
 	glfwSetScrollCallback(window, scrollCallback);
 
 	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+		// pos, normals, tex coords
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
 	};
 	VertexAttribute cubeVertexAttribs[] = {
 		VertexAttribute(3, 0),
-		VertexAttribute(3, 3)
+		VertexAttribute(3, 3),
+		VertexAttribute(2, 6)
 	};
 	VertexAttribute lightVertexAttribs[] = {
 		VertexAttribute(3, 0)
 	};
 	
-	VertexBuffer vbo(vertices, 216, GL_STATIC_DRAW);
-	VertexAttributeDescriptor cubeAttribsDesc(cubeVertexAttribs, 2, 6);
+	VertexBuffer vbo(vertices, 288, GL_STATIC_DRAW);
+	VertexAttributeDescriptor cubeAttribsDesc(cubeVertexAttribs, 3, 8);
 	VertexArray cubeVao(GL_TRIANGLES, 36, false);
 	cubeVao.bind();
 	cubeVao.RegisterVertexBufferAttributes(vbo, cubeAttribsDesc);
 
-	VertexAttributeDescriptor lightAttribsDesc(lightVertexAttribs, 1, 6);
+	VertexAttributeDescriptor lightAttribsDesc(lightVertexAttribs, 1, 8);
 	VertexArray lightVao(GL_TRIANGLES, 36, false);
 	lightVao.bind();
 	lightVao.RegisterVertexBufferAttributes(vbo, lightAttribsDesc);
@@ -158,6 +160,9 @@ int main()
 		"Res/Shaders/LightFragment.glsl");
 	ShaderProgram cubeShaderProgram("Res/Shaders/cubeVertex.glsl", 
 		"Res/Shaders/cubeFragment.glsl");
+
+	Texture cubeDiffuseMap("Res/Textures/container2.png", GL_TEXTURE_2D);
+	Texture cubeSpecularMap("Res/Textures/container2_specular.png", GL_TEXTURE_2D);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -187,23 +192,21 @@ int main()
 		camera.updateProjMat();
 		
 		cubeVao.bind();
+		
+		cubeDiffuseMap.bind(GL_TEXTURE0);
+		cubeSpecularMap.bind(GL_TEXTURE1);
+
 		cubeShaderProgram.use();
 		cubeShaderProgram.setMat4("view", camera.viewMat);
 		cubeShaderProgram.setMat4("projection", camera.projMat);
 		glm::mat4 model = glm::mat4(1.0f);
 		cubeShaderProgram.setMat4("model", model);
-		cubeShaderProgram.setVec3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-		cubeShaderProgram.setVec3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-		cubeShaderProgram.setVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+		cubeShaderProgram.setInt("material.diffuse", 0);
+		cubeShaderProgram.setInt("material.specular", 1);
 		cubeShaderProgram.setFloat("material.shine", 32.0f);
-		glm::vec3 lightColor(
-			sin((float)glfwGetTime() * 2.0f),
-			sin((float)glfwGetTime() * 0.7f),
-			sin((float)glfwGetTime() * 1.3f)
-		);
-		cubeShaderProgram.setVec3("light.ambient", lightColor * 0.15f);
-		cubeShaderProgram.setVec3("light.diffuse", lightColor * 0.5f);
-		cubeShaderProgram.setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeShaderProgram.setVec3("light.ambient", glm::vec3(0.2f));
+		cubeShaderProgram.setVec3("light.diffuse", glm::vec3(0.5f));
+		cubeShaderProgram.setVec3("light.specular", glm::vec3(1.0f));
 		cubeShaderProgram.setVec3("light.position", lightPos);
 		cubeShaderProgram.setVec3("viewPos", camera.position);
 		glDrawArrays(cubeVao.primitiveType, 0, cubeVao.nrOfElements);
